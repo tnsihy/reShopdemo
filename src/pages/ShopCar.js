@@ -89,21 +89,21 @@ export default function ShopCar() {
     // }
 
     // 选中时对总金额进行计算 将选中的商品添加到可能成为订单的数组
-    const changeCheckbox = (addItem, event) => {
-        const isChecked = event.target.checked
-        const addItemMoney = +(addItem.price * addItem.count).toFixed(2);
-        if (isChecked) {
-            setTotalMoney((+totalMoney + +addItemMoney).toFixed(2))
+    // const changeCheckbox = (addItem, event) => {
+    //     const isChecked = event.target.checked
+    //     const addItemMoney = +(addItem.price * addItem.count).toFixed(2);
+    //     if (isChecked) {
+    //         setTotalMoney((+totalMoney + +addItemMoney).toFixed(2))
 
-            orderList.push(addItem)
-            setOrderList(orderList)
-        } else {
-            setTotalMoney((+totalMoney - +addItemMoney).toFixed(2))
+    //         orderList.push(addItem)
+    //         setOrderList(orderList)
+    //     } else {
+    //         setTotalMoney((+totalMoney - +addItemMoney).toFixed(2))
 
-            orderList.splice(orderList.indexOf(addItem), 1)
-            setOrderList(orderList)
-        }
-    }
+    //         orderList.splice(orderList.indexOf(addItem), 1)
+    //         setOrderList(orderList)
+    //     }
+    // }
 
     // 提交订单
     const handleSubmit = () => {
@@ -166,13 +166,13 @@ export default function ShopCar() {
                                         <button className={classes.button} onClick={() => store.dispatch({ type: 'UP', value: item })}>+</button>
                                     </TableCell>
                                     <TableCell align="center" className={classes.jine}>￥{(item.price * item.count).toFixed(2)}</TableCell>
-                                    <TableCell align="center"><Button variant="outlined" size="small" onClick={() => store.dispatch({ type: 'DELETE', value: index })}>删除</Button></TableCell>
+                                    <TableCell align="center"><Button variant="outlined" size="small" onClick={() => store.dispatch({ type: 'DELETE', index: index, })}>删除</Button></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </Paper>
-                <h3 className={classes.totalmoney}>共计<span>{totalMoney}</span>元</h3>
+                <h3 className={classes.totalmoney}>共计<span>{store.getState().totalMoney}</span>元</h3>
                 <Button className={classes.handleDing} variant="outlined" onClick={() => handleSubmit()}>提交订单</Button>
             </Container>
         </div>

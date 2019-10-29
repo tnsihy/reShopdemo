@@ -3,8 +3,8 @@ import { ADD_CAR, UP, DOWN, DELETE, SELECT } from './actionType'
 // 初始化数据
 const defaultState = {
     carInfo: [],
-    orderList:[],
-    totalMoney:[]
+    orderList: [],
+    totalMoney: 0
 }
 
 // reducer
@@ -22,10 +22,10 @@ const reducer = (state = defaultState, action) => {
             let decreseState = oprate(cloneState, 'DOWN', action.value)
             return decreseState
         case DELETE:
-            let leaveState = deleteClick(cloneState, action.value)
+            let leaveState = deleteClick(cloneState, action.index)
             return leaveState
         case SELECT:
-            let selectedState = changeCheckbox(cloneState,action.value,action.event)
+            let selectedState = changeCheckbox(cloneState, action.value, action.event)
             return selectedState
         default:
             return cloneState
@@ -33,12 +33,18 @@ const reducer = (state = defaultState, action) => {
 }
 
 // 选中时对总金额进行计算 将选中的商品添加到可能成为订单的数组
-const selectedState = (cloneState,addItem,event) => {
+const changeCheckbox = (cloneState, addItem, event) => {
     const isChecked = event.target.checked
     const addItemMoney = +(addItem.price * addItem.count).toFixed(2)
-    if(isChecked){
-        
+    if (isChecked) {
+        cloneState.totalMoney = (+cloneState.totalMoney + +addItemMoney).toFixed(2)
+        cloneState.orderList.push(addItem)
+    } else {
+        cloneState.totalMoney = (+cloneState.totalMoney - +addItemMoney).toFixed(2)
+        cloneState.orderList.splice(cloneState.orderList.indexOf(addItem), 1)
     }
+    console.log('成为订单选项',cloneState.orderList)
+    return cloneState
 }
 
 
