@@ -1,0 +1,5 @@
+export const ADD_CAR = "ADD_CAR"
+export const UP = "UP"
+export const DOWN = "DOWN"
+export const DELETE = "DELETE"
+export const SELECT = "SELECT"

@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { makeStyles, createStyles } from '@material-ui/core'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Navigation from './components/Navigation'
+import Main from './components/Main'
+
+// 样式
+const useStyles = makeStyles(() =>
+    createStyles({
+        root: {
+            display: 'flex'
+        }
+    })
+)
+
+export default function App() {
+    const classes = useStyles()
+    const [open, setOpen] = useState(false)
+    const handleDrawerOpen = () => {
+        setOpen(true)
+    }
+    const handleDrawerClose = () => {
+        setOpen(false)
+    }
+
+    return (
+        <Router>
+            <div className={classes.root}>
+                <Navigation
+                    open={open}
+                    handleDrawerOpen={handleDrawerOpen}
+                    handleDrawerClose={handleDrawerClose}
+                />
+                <Main open={open} />
+            </div>
+        </Router>
+    )
 }
-
-export default App;
