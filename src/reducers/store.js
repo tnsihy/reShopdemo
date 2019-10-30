@@ -1,11 +1,12 @@
 import { ADD_CAR } from './../actionTypes/store'
-import { ADD_SHOP, DECREASE_SHOP, DELETE_SHOP, CHECK_SHOP } from './../actionTypes/shopcar'
+import { ADD_SHOP, DECREASE_SHOP, DELETE_SHOP, CHECK_SHOP,ORDER_SUBMIT } from './../actionTypes/shopcar'
 
 const reducer = (state = [], action) => {
   switch (action.type) {
-    // 商城操作
+    // 不分开写了,这是Store页面的
     case ADD_CAR:
       return addCar(state, action)
+    // ShopCar页面
     case ADD_SHOP:
       return addShop(state, action)
     case DECREASE_SHOP:
@@ -14,6 +15,8 @@ const reducer = (state = [], action) => {
       return deleteShop(state, action)
     case CHECK_SHOP:
       return checkShop(state, action)
+    case ORDER_SUBMIT:
+      return orderSubmit(state,action)
     default:
       return state;
   }
@@ -30,7 +33,7 @@ function addCar(state, action) {
       if (item.id === addItemId) {
         return Object.assign({}, item, { count: item.count + 1 })
       }
-      return item;
+      return item
     })
   } else {
     // 没有该商品，则存进去state，并且初始化数量为1
@@ -50,9 +53,9 @@ function addShop(state, action) {
     if (item.id === addItemId) {
       return Object.assign({}, item, { count: item.count + 1 })
     }
-    return item;
+    return item
   })
-  return newState;
+  return newState
 }
 
 function decreaseShop(state, action) {
@@ -60,20 +63,20 @@ function decreaseShop(state, action) {
   const newState = state.map(item => {
     if (item.id === addItemId) {
       // 如果数量为1，则不发生改变
-      if (item.count === 1) return item;
+      if (item.count === 1) return item
+      // 否则减1
       return Object.assign({}, item, { count: item.count - 1 })
     }
-    return item;
+    return item
   })
-  return newState;
+  return newState
 }
 
-
 function deleteShop(state, action) {
-  // const deleteId = action.payload
-  // return state.filter(item =>
-  //   item.id !== deleteId
-  // )
+  const deleteId = action.payload
+  return state.filter(item =>
+    item.id !== deleteId
+  )
 }
 
 function checkShop(state, action) {
@@ -88,5 +91,7 @@ function checkShop(state, action) {
   })
 }
 
+function orderSubmit(state,action){
+}
 
-export default reducer;
+export default reducer

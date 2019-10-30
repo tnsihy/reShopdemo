@@ -4,8 +4,9 @@ import {
   Checkbox
 } from '@material-ui/core'
 import { ADD_SHOP, DECREASE_SHOP } from './../actionTypes/shopcar'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'
 import { addShop, decreaseShop, deleteShop, checkShop } from './../actions/shopcar'
+import { orderSubmit } from './../actions/order'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -50,10 +51,12 @@ const useStyles = makeStyles((theme) =>
 // ShopCar组件
 export default function ShopCar() {
 
-
   const dispatch = useDispatch()
+  // 获取reducer返回的数据store 即state
   const store = useSelector((state) => state.store)
+
   const computedTotalMoney = useCallback(() => {
+    // 累加器 把选中的金额累加
     return store.reduce((pre, curr) => {
       if (curr.isChecked) {
         return +((pre + curr.price * curr.count).toFixed(2))
@@ -61,7 +64,8 @@ export default function ShopCar() {
       return pre
     }, 0)
   })
-  const [totalMonney, setTotalMoney] = useState(computedTotalMoney())
+
+  const [totalMoney, setTotalMoney] = useState(computedTotalMoney())
   const classes = useStyles()
 
 
@@ -79,58 +83,44 @@ export default function ShopCar() {
     dispatch(deleteShop(id))
   }
 
-
+  // 多选框被选中
   const handleCheck = (id, event) => {
+    // 多选框中本身就有checked属性
     const isChecked = event.target.checked
     dispatch(checkShop(id, isChecked))
   }
 
   useEffect(() => {
+    // 监听computedTotalMoney
     setTotalMoney(computedTotalMoney())
   }, [computedTotalMoney])
 
-  // 选中时对总金额进行计算 将选中的商品添加到可能成为订单的数组
-  // const changeCheckbox = (addItem, event) => {
-  //     const isChecked = event.target.checked
-  //     const addItemMoney = +(addItem.price * addItem.count).toFixed(2);
-  //     if (isChecked) {
-  //         setTotalMoney((+totalMoney + +addItemMoney).toFixed(2))
-
-  //         orderList.push(addItem)
-  //         setOrderList(orderList)
-  //     } else {
-  //         setTotalMoney((+totalMoney - +addItemMoney).toFixed(2))
-
-  //         orderList.splice(orderList.indexOf(addItem), 1)
-  //         setOrderList(orderList)
-  //     }
-  // }
 
   // 提交订单
   const handleSubmit = () => {
-    // // 1.首先取出原本的订单数据 有可能有数据或者无
-    // const preOrderList = JSON.parse(localStorage.orderList || '[]')
-
-    // // 2.把orderList数组存储到preOrderList的数组中
-    // preOrderList.push(orderList)
-    // localStorage.orderList = JSON.stringify(preOrderList)
-
-    // // 3.提示提交成功
-    // alert('提交成功！')
-
-    // // 4.删除购物车(shopData)中的id等于orderList的id
-    // const preShopData = JSON.parse(localStorage.shopData || '[]')
-    // let leaveShopData = preShopData.filter(item => !orderList.some(ele => ele.id === item.id))
-    // localStorage.shopData = JSON.stringify(leaveShopData)
-    // setShopData(leaveShopData)
-
-    // // 5.清空orderList 还有money
-    // setOrderList([])
-    // setTotalMoney(0.00)
-
-    // 6.在订单列表中遍历localStorage数据
-
+    dispatch(orderSubmit(store))
   }
+  // // 1.首先取出原本的订单数据 有可能有数据或者无
+  // const preOrderList = JSON.parse(localStorage.orderList || '[]')
+
+  // // 2.把orderList数组存储到preOrderList的数组中
+  // preOrderList.push(orderList)
+  // localStorage.orderList = JSON.stringify(preOrderList)
+
+  // // 3.提示提交成功
+  // alert('提交成功！')
+
+  // // 4.删除购物车(shopData)中的id等于orderList的id
+  // const preShopData = JSON.parse(localStorage.shopData || '[]')
+  // let leaveShopData = preShopData.filter(item => !orderList.some(ele => ele.id === item.id))
+  // localStorage.shopData = JSON.stringify(leaveShopData)
+  // setShopData(leaveShopData)
+
+  // // 5.清空orderList 还有money
+  // setOrderList([])
+  // setTotalMoney(0.00)
+
+  // 6.在订单列表中遍历localStorage数据
 
   return (
     <div>
@@ -173,7 +163,7 @@ export default function ShopCar() {
             </TableBody>
           </Table>
         </Paper>
-        <h3 className={classes.totalmoney}>共计<span>{totalMonney}</span>元</h3>
+        <h3 className={classes.totalmoney}>共计<span>{totalMoney}</span>元</h3>
         <Button className={classes.handleDing} variant="outlined" onClick={() => handleSubmit()}>提交订单</Button>
       </Container>
     </div>

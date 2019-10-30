@@ -1,11 +1,11 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { Grid, Paper, Button } from '@material-ui/core'
 
 import { booksInfo } from '../static/booksInfo'
-import { useDispatch } from 'react-redux';
-
-import { addCar } from './../actions/store';
+import { addCar } from './../actions/store'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -27,10 +27,12 @@ const useStyles = makeStyles((theme) =>
 
 
 export default function Store() {
+
     const classes = useStyles()
     const dispatch = useDispatch()
 
     const handleAddCar = (addItem) => {
+        // 触发action
         dispatch(addCar(addItem))
     }
 

@@ -1,4 +1,4 @@
-import { DECREASE_SHOP, ADD_SHOP, DELETE_SHOP, CHECK_SHOP } from './../actionTypes/shopcar';
+import { DECREASE_SHOP, ADD_SHOP, DELETE_SHOP, CHECK_SHOP,ORDER_SUBMIT } from './../actionTypes/shopcar'
 
 export const addShop = (id) => ({
     type: ADD_SHOP,
@@ -21,4 +21,8 @@ export const checkShop = (id, isChecked) => ({
         id,
         isChecked
     }
+})
+
+export const orderSubmit = () => ({
+    type:ORDER_SUBMIT
 })
