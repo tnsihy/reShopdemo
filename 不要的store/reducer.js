@@ -22,7 +22,7 @@ const reducer = (state = defaultState, action) => {
             let decreseState = oprate(cloneState, 'DOWN', action.value)
             return decreseState
         case DELETE:
-            let leaveState = deleteClick(cloneState, action.index)
+            let leaveState = deleteClick(cloneState, action.index, action.value)
             return leaveState
         case SELECT:
             let selectedState = changeCheckbox(cloneState, action.value, action.event)
@@ -43,13 +43,15 @@ const changeCheckbox = (cloneState, addItem, event) => {
         cloneState.totalMoney = (+cloneState.totalMoney - +addItemMoney).toFixed(2)
         cloneState.orderList.splice(cloneState.orderList.indexOf(addItem), 1)
     }
-    console.log('成为订单选项',cloneState.orderList)
+    console.log('成为订单选项', cloneState.orderList)
     return cloneState
 }
 
 
 // 单个商品删除
-const deleteClick = (cloneState, index) => {
+const deleteClick = (cloneState, index, deleteItem) => {
+    console.log(index)
+    console.log(deleteItem)
     cloneState.carInfo.splice(index, 1)
     return cloneState
 }

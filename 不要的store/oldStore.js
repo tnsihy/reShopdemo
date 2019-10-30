@@ -3,9 +3,7 @@ import { makeStyles, createStyles } from '@material-ui/core/styles'
 import { Grid, Paper, Button } from '@material-ui/core'
 
 import { booksInfo } from '../static/booksInfo'
-import { useDispatch } from 'react-redux';
-
-import { addCar } from './../actions/store';
+import store from '../store'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -28,11 +26,34 @@ const useStyles = makeStyles((theme) =>
 
 export default function Store() {
     const classes = useStyles()
-    const dispatch = useDispatch()
 
-    const handleAddCar = (addItem) => {
-        dispatch(addCar(addItem))
-    }
+    // const handleAddCar = (addItem) => {
+
+    //     // 判断购物车local里面有没有加入该商品,通过id进行比较
+    //     const addItemId = addItem.id
+    //     const preShopData = JSON.parse(localStorage.shopData || '[]')
+    //     const findItem = preShopData.find(item => (item.id === addItemId))
+
+    //     // 有该商品数量+1
+    //     if (findItem) {
+    //         preShopData.forEach(item => {
+    //             if (item.id === addItemId) {
+    //                 item.count++
+    //             }
+    //         })
+    //     } else {
+
+    //         // 没有该商品，则存进去local，并且初始化数量为1
+    //         // Object.assign(target,...sources) 用于将所有可枚举属性的值从一个或多个源对象复制到目标对象
+    //         const copyAddItem = Object.assign({}, addItem, {
+    //             count: 1
+    //         })
+    //         preShopData.push(copyAddItem)
+    //     }
+
+    //     // 更新localStorage.shopData
+    //     localStorage.shopData = JSON.stringify(preShopData)
+    // }
 
     return (
         <Grid container className={classes.root}>
@@ -53,7 +74,7 @@ export default function Store() {
                                         <svg className="icon" aria-hidden="true">
                                             <use xlinkHref="#icon-gouwuche"></use>
                                         </svg>
-                                    } onClick={() => handleAddCar(item)}>加入购物车</Button>
+                                    } onClick={() => {store.dispatch({type:'ADD_CAR',value:item})}}>加入购物车</Button>
                                 </Grid>
                             </Grid>
                         </Paper>
