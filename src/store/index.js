@@ -12,9 +12,6 @@ const rootReducer = combineReducers({
 
 // 创建数据存储仓库
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-
-// 为了在控制台拿取store数据
 window.store = store
 
-// 暴露出去
 export default store

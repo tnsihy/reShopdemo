@@ -2,7 +2,6 @@ import React from 'react'
 import {
     makeStyles,
     createStyles,
-    Paper,
     Container,
     Typography,
     TableHead,
@@ -11,7 +10,7 @@ import {
     TableCell,
     TableBody
 } from '@material-ui/core'
-import {useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 const useStyles = makeStyles((theme) =>
     createStyles({
@@ -37,7 +36,17 @@ const useStyles = makeStyles((theme) =>
 export default function Order() {
     const classes = useStyles()
     const order = useSelector((state) => state.order)
-    
+
+    let randomNumber = 0
+    let totalMoney = order.reduce((prev, cur) => +((prev + cur.price * cur.count).toFixed(2)), 0)
+    if (order) {
+        for (let i = 0; i < 6; i++) {
+            randomNumber += Math.floor(Math.random() * 10)
+        }
+    }
+    let orderNumber = new Date().getTime() + randomNumber
+
+
     return (
         <div className={classes.root}>
             <span className={classes.title}>我的订单</span>
@@ -53,28 +62,25 @@ export default function Order() {
                     </TableHead>
                 </Table>
                 {
-                    order.map((item, index) => (
-                        <Paper className={classes.orderTable} key={item + index}>{item.map((i, index) => (
-                            <div key={i + index}>
-                                <Table>
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell width={100} align="center"><img src={i.img} alt="" width="100" /></TableCell>
-                                            <TableCell width={300} align="center">{i.name}</TableCell>
-                                            <TableCell width={100} align="center">￥{i.price}</TableCell>
-                                            <TableCell width={100} align="center">{i.count}</TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                </Table>
-                            </div>
-                        ))}
-                            <Typography>&nbsp;订单编号是:{item.orderNumber}</Typography>
-                            <Typography className={classes.total}>总价是：
-                                <span style={{ color: 'red' }}>￥{item.totalMoney}</span>
-                            </Typography>
-                        </Paper>
+                    order.map((i, index) => (
+                        <div key={i + index}>
+                            <Table>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell width={100} align="center"><img src={i.img} alt="" width="100" /></TableCell>
+                                        <TableCell width={300} align="center">{i.name}</TableCell>
+                                        <TableCell width={100} align="center">￥{i.price}</TableCell>
+                                        <TableCell width={100} align="center">{i.count}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </div>
                     ))
                 }
+                <Typography>&nbsp;订单编号是:{orderNumber}</Typography>
+                <Typography className={classes.total}>总价是：
+                    <span style={{ color: 'red' }}>￥{totalMoney}</span>
+                </Typography>
             </Container>
         </div>
     )

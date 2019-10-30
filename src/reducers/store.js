@@ -1,5 +1,5 @@
 import { ADD_CAR } from './../actionTypes/store'
-import { ADD_SHOP, DECREASE_SHOP, DELETE_SHOP, CHECK_SHOP,ORDER_SUBMIT } from './../actionTypes/shopcar'
+import { ADD_SHOP, DECREASE_SHOP, DELETE_SHOP, CHECK_SHOP, ORDER_SUBMIT } from './../actionTypes/shopcar'
 
 const reducer = (state = [], action) => {
   switch (action.type) {
@@ -16,7 +16,7 @@ const reducer = (state = [], action) => {
     case CHECK_SHOP:
       return checkShop(state, action)
     case ORDER_SUBMIT:
-      return orderSubmit(state,action)
+      return orderSubmit(state, action)
     default:
       return state;
   }
@@ -91,7 +91,8 @@ function checkShop(state, action) {
   })
 }
 
-function orderSubmit(state,action){
+function orderSubmit(state, action) {
+  return state.filter(item => !item.isChecked)
 }
 
 export default reducer

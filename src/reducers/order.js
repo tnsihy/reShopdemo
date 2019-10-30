@@ -11,12 +11,10 @@ const reducer = (state = [], action) => {
 }
 
 function orderSubmit(state, action) {
-    console.log(action.payload)
     // 获取购物车的被选中的数据 赋值给state
     const shopData = action.payload
-    const orderList = shopData.map(item => item.isChecked === true)
-    console.log(orderList)
-    return [...state,orderList]
+    const orderList = shopData.filter(item => item.isChecked)
+    return [...state,...orderList]
 }
 
 export default reducer

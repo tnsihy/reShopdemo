@@ -52,7 +52,8 @@ const useStyles = makeStyles((theme) =>
 export default function ShopCar() {
 
   const dispatch = useDispatch()
-  // 获取reducer返回的数据store 即state
+  // useSelector()传入函数 获取最新store 
+  // useSelector会订阅store, 当action被dispatched时运行Selector
   const store = useSelector((state) => state.store)
 
   const computedTotalMoney = useCallback(() => {
@@ -100,27 +101,6 @@ export default function ShopCar() {
   const handleSubmit = () => {
     dispatch(orderSubmit(store))
   }
-  // // 1.首先取出原本的订单数据 有可能有数据或者无
-  // const preOrderList = JSON.parse(localStorage.orderList || '[]')
-
-  // // 2.把orderList数组存储到preOrderList的数组中
-  // preOrderList.push(orderList)
-  // localStorage.orderList = JSON.stringify(preOrderList)
-
-  // // 3.提示提交成功
-  // alert('提交成功！')
-
-  // // 4.删除购物车(shopData)中的id等于orderList的id
-  // const preShopData = JSON.parse(localStorage.shopData || '[]')
-  // let leaveShopData = preShopData.filter(item => !orderList.some(ele => ele.id === item.id))
-  // localStorage.shopData = JSON.stringify(leaveShopData)
-  // setShopData(leaveShopData)
-
-  // // 5.清空orderList 还有money
-  // setOrderList([])
-  // setTotalMoney(0.00)
-
-  // 6.在订单列表中遍历localStorage数据
 
   return (
     <div>
